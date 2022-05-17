@@ -1,7 +1,3 @@
-add_executable(Test)
-target_link_libraries(Test PRIVATE sqlite_orm::sqlite_orm)
-
-target_sources(Test 
-    PRIVATE 
-        main.cpp 
-)
+add_library(Simulation simulation.cpp simulation.h)
+add_executable(Main main.cpp)
+target_link_libraries(Main PRIVATE sqlite_orm::sqlite_orm Simulation)
