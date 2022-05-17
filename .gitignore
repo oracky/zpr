@@ -2,7 +2,6 @@
 build/
 _deps/
 CMake*/
-CMake*
 cmake_install*
 CMakeCache*
 Makefile
