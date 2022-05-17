@@ -6,6 +6,9 @@ cmake_install*
 CMakeCache*
 Makefile
 
+# Database
+*.db
+
 # Prerequisites
 *.d
 
