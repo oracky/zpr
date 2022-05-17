@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE SimulationTest
 #include <boost/test/unit_test.hpp>
 
-#include "simulation.h"
+#include "Simulation.h"
 
 
 BOOST_AUTO_TEST_CASE(PassTest)

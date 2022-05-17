@@ -3,7 +3,7 @@ include_directories (${CMAKE_SOURCE_DIR}/src
                      ${Boost_INCLUDE_DIRS}
                      )
 add_definitions (-DBOOST_TEST_DYN_LINK)
-add_executable (Test test_simulation.cpp)
+add_executable (Test TestSimulation.cpp)
 target_link_libraries (Test
                        Simulation
                        ${Boost_FILESYSTEM_LIBRARY}

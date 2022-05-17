@@ -5,6 +5,10 @@ CMake*/
 cmake_install*
 CMakeCache*
 Makefile
+CMakeFiles/
+Testing/
+CTest*
+.vscode*
 
 # Database
 *.db

@@ -1,4 +1,4 @@
-#include "simulation.h"
+#include "Simulation.h"
 
 // dummy function to demonstrate unit testing
 int simulate(int x) {
