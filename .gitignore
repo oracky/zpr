@@ -8,7 +8,11 @@ Makefile
 CMakeFiles/
 Testing/
 CTest*
+*.tcl
 .vscode*
+Test
+Main
+
 
 # Database
 *.db
