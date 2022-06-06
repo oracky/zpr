@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS Measurements (
     vehicle_type INTEGER, 
     x_coordinate REAL, 
     y_coordinate REAL,
-    certainty REAL, 
+    certainty REAL,
+    timestamp TEXT, 
     camera_id INTEGER,
     simulation_id INTEGER,
     FOREIGN KEY (camera_id)
