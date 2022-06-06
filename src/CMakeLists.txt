@@ -1,4 +1,6 @@
 set(SQLTABLES_LIB_FILES SQLTable.cc SQLTable.h MeasurementTable.cc MeasurementTable.h CameraTable.cc CameraTable.h SimulationTable.cc SimulationTable.h SQLConnector.cc SQLConnector.h VehicleType.hpp)
+set(SIMULATION_LIB_FILES Simulation.cc Simulation.h Vehicle.cc Vehicle.h VehicleGraphical.cc VehicleGraphical.h
+    Config.cc Config.h Move.cc Move.h Road.cc Road.h)
 
 #look for SFML and add it
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/SFML/cmake-modules/")
@@ -8,7 +10,7 @@ find_package (SFML COMPONENTS system graphics audio network REQUIRED)
 
 # add_library(Simulation Simulation.cpp Simulation.h)
 add_library(SQLTables ${SQLTABLES_LIB_FILES})
-add_library(Simulation Simulation.cpp Simulation.h)
+add_library(Simulation ${SIMULATION_LIB_FILES})
 add_executable(Main Main.cpp)
 
 if(UNIX)
@@ -25,4 +27,4 @@ endif(UNIX)
 #     include_directories(${SFML_INCLUDE_DIR})
 # endif(UNIX)
 
-target_link_libraries(Main PRIVATE SQLTables sqlite3 sfml-audio sfml-graphics sfml-network sfml-system)
+target_link_libraries(Main PRIVATE SQLTables Simulation sqlite3 sfml-audio sfml-graphics sfml-network sfml-system)

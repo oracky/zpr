@@ -59,7 +59,7 @@ int prototype(int argc, char *argv[])
 
     sf::RectangleShape car(sf::Vector2(10.f, 10.f));
     car.setPosition(5., 25.f+20.f-10.f);
-    car.setFillColor(sf::Color::Blue);
+    car.setFillColor(sf::Color::Transparent);
     
     int counter = 0;
     // run the program as long as the window is open
