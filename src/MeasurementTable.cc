@@ -1,17 +1,42 @@
 #include <string>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
 #include "MeasurementTable.h"
 #include "CameraTable.h"
 #include "Simulation.h"
 #include "VehicleType.hpp"
 
-MeasurementTable::MeasurementTable(){}
+MeasurementTable::MeasurementTable()
+{
+    auto time = std::time(nullptr);
+    auto local_time = *std::localtime(&time);
+
+    std::ostringstream timestamp;
+    timestamp << std::put_time(&local_time, "%d-%m-%Y %H:%M:%S");
+    timestamp_ = timestamp.str();
+}
 
 MeasurementTable::MeasurementTable(int x, int y, double certainty, VehicleType vehicle_type, CameraTable& camera, SimulationTable& simulation)
-    : x_(x), y_(y), certainty_(certainty), vehicle_type_(vehicle_type), camera_(camera), simulation_(simulation){}
+    : x_(x), y_(y), certainty_(certainty), vehicle_type_(vehicle_type), camera_(camera), simulation_(simulation)
+{
+    auto time = std::time(nullptr);
+    auto local_time = *std::localtime(&time);
+
+    std::ostringstream timestamp;
+    timestamp << std::put_time(&local_time, "%d-%m-%Y %H:%M:%S");
+    timestamp_ = timestamp.str();
+}
 
 std::string MeasurementTable::prepareInsertQuery() const 
 {
-    std::string query = "INSERT INTO Measurements (vehicle_type, x_coordinate, y_coordinate, certainty, camera_id, simulation_id) VALUES ('";
+    auto time = std::time(nullptr);
+    auto local_time = *std::localtime(&time);
+
+    std::ostringstream timestamp;
+    timestamp << std::put_time(&local_time, "%d-%m-%Y %H:%M:%S");
+
+    std::string query = "INSERT INTO Measurements (vehicle_type, x_coordinate, y_coordinate, certainty, timestamp, camera_id, simulation_id) VALUES ('";
     query += std::to_string(static_cast<int>(vehicle_type_));
     query += "', '";
     query += std::to_string(x_);
@@ -19,6 +44,8 @@ std::string MeasurementTable::prepareInsertQuery() const
     query += std::to_string(y_);
     query += "', '";
     query += std::to_string(certainty_);
+    query += "', '";
+    query += timestamp_;
     query += "', '";
     query += std::to_string(camera_.getID());
     query += "', '";

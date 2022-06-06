@@ -34,6 +34,7 @@ private:
     int x_;
     int y_;
     double certainty_;
+    std::string timestamp_;
     VehicleType vehicle_type_;
     CameraTable camera_;
     SimulationTable simulation_;
