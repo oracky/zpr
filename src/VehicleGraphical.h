@@ -6,6 +6,7 @@
 #include "Vehicle.h"
 #include "Road.h"
 
+
 class VehicleGraphical : public Vehicle
 {
 public:
@@ -20,5 +21,6 @@ private:
     void move(const Road& road);
     bool isOnTheRoad(const sf::FloatRect& bounding_box_shape, const sf::FloatRect& bounding_box_road);
 };
+
 
 #endif

@@ -3,9 +3,9 @@
 
 enum class MoveType
 {
-    None=0,
-    UP=1,
-    DOWN=-1,
+    NONE=0,
+    UP=-1,
+    DOWN=1,
     RIGHT=1,
     LEFT=-1
 };
@@ -14,7 +14,7 @@ class Move
 {
 public:
     Move();
-    Move(MoveType vertical, MoveType horizontal);
+    Move(MoveType horizontal, MoveType vertical);
     float getVertical() const;
     float getHorizontal() const;
 private:

@@ -1,7 +1,7 @@
 #include "Vehicle.h"
 #include "VehicleGraphical.h"
 #include "Move.h"
-#include <iostream>
+
 
 VehicleGraphical::VehicleGraphical() {}
 VehicleGraphical::VehicleGraphical(int x, int y, int speed, const VehicleType& type, const sf::Color& color, float size)
@@ -52,6 +52,6 @@ bool VehicleGraphical::isOnTheRoad(const sf::FloatRect& bounding_box_shape, cons
 void VehicleGraphical::move(const Road& road)
 {
     auto prefered_move = road.getPreferedMove();
-    shape_.move(prefered_move.getVertical() * speed_, prefered_move.getHorizontal() * speed_);
+    shape_.move(prefered_move.getHorizontal() * speed_, prefered_move.getVertical() * speed_);
     last_road_ = road;
 }

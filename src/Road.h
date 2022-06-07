@@ -8,7 +8,7 @@ class Road
 {
 public:
     Road();
-    Road(int x, int y, float length, float width, const Move& preferedMove);
+    Road(int x, int y, float length, float width, const Move& preferedMove, int rotation_degrees=0);
     sf::RectangleShape getShape() const; 
     Move getPreferedMove() const;
     void setPreferedMove(const Move& new_move);
@@ -17,9 +17,10 @@ public:
 private:
     int x_;
     int y_;
+    int rotation_degrees_;
     float length_;
     float width_;
-    Move preferedMove_;
+    Move prefered_move_;
     sf::RectangleShape shape_;
 };
 

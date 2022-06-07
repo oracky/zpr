@@ -120,8 +120,23 @@ int main(int argc, char *argv[])
 //         window.display();
 //         usleep(10*1000);
 //     }
+    
+    auto rc1 = RoadConfig(5, 25, 150.f, 20.f, Move(MoveType::RIGHT, MoveType::NONE));
+    auto rc2 = RoadConfig(175, 5, 150.f, 20.f, Move(MoveType::NONE, MoveType::DOWN), 90);
 
-    auto config = Config(0,1,0,25);
+    // auto vc1 = VehicleConfig(5, 35, 1, VehicleType::Car, sf::Color::Red, 10.f);
+    auto vc1 = VehicleConfig(5, 35, 1, VehicleType::Car, sf::Color::Red, 10.f);
+    auto vc2 = VehicleConfig(5, 35, 2, VehicleType::Car, sf::Color::Blue, 10.f);
+
+    std::vector<RoadConfig> rcv;
+    std::vector<VehicleConfig> vcv;
+
+    rcv.push_back(rc1);
+    rcv.push_back(rc2);
+    vcv.push_back(vc1);
+    vcv.push_back(vc2);
+
+    auto config = Config(0,1,0,25,rcv,vcv);
     auto sim = Simulation(config);
     sim.run();
     return 0;

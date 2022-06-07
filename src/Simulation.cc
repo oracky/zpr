@@ -2,12 +2,14 @@
 #include "Config.h"
 #include "Road.h"
 #include <unistd.h>
+#include <iostream>
 
 Simulation::Simulation(const Config& config) : config_(config) {}
 
 void Simulation::run() 
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+
     setRoadSystemForSimulation();
     setVehiclesForSimulation();
     setCamerasForSimulation();
@@ -40,9 +42,10 @@ void Simulation::run()
 
 void Simulation::setRoadSystemForSimulation()
 {
-    for(int i=0; i<config_.getRoadNumber(); ++i)
-    {   
-        auto road = Road(1*i, 2*i, 50.f*i, 20.f, Move(MoveType::RIGHT, MoveType::None));
+    for (const auto& road_config : config_.getRoadsConfig())
+    {
+        auto road = Road(road_config.getXCoordinate(), road_config.getYCoordinate(), road_config.getLength(),
+         road_config.getWidth(), road_config.getPreferedMove(), road_config.getRotation());
         roads_.push_back(road);
     }
 
@@ -50,10 +53,11 @@ void Simulation::setRoadSystemForSimulation()
 
 void Simulation::setVehiclesForSimulation()
 {
-    for(int i=0; i<config_.getCarNumber(); ++i)
-    {   
-        auto car = VehicleGraphical(1*i, 1*i, 1, VehicleType::Car, sf::Color::Red, 10.f);
-        vehicles_.push_back(car);
+    for (const auto& vehicle_config : config_.getVehiclesConfig())
+    {
+        auto vehicle = VehicleGraphical(vehicle_config.getXCoordinate(), vehicle_config.getYCoordinate(), vehicle_config.getSpeed(),
+         vehicle_config.getVehicleType(), vehicle_config.getColor(), vehicle_config.getSize());
+        vehicles_.push_back(vehicle);
     }
 }
 
