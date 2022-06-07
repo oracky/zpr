@@ -7,6 +7,8 @@ CameraTable::CameraTable(){}
 CameraTable::CameraTable(int x, int y, double visibility, double precision) 
     : x_(x), y_(y), visibility_(visibility), precision_(precision) {}
 
+CameraTable::~CameraTable(){}
+
 
 std::string CameraTable::prepareInsertQuery() const 
 {

@@ -7,7 +7,7 @@
 class SQLConnector
 {
 public:
-    SQLConnector(std::string& filepath);
+    SQLConnector(const std::string& filepath);
     ~SQLConnector();
     sqlite3* getDatabaseConnection() const;
     void insertData(SQLTable& table);

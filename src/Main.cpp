@@ -120,7 +120,8 @@ int main(int argc, char *argv[])
 //         window.display();
 //         usleep(10*1000);
 //     }
-    
+    std::string file = "../zpr.db";
+
     auto rc1 = RoadConfig(5, 25, 150.f, 20.f, Move(MoveType::RIGHT, MoveType::NONE));
     auto rc2 = RoadConfig(175, 5, 150.f, 20.f, Move(MoveType::NONE, MoveType::DOWN), 90);
 
@@ -128,15 +129,19 @@ int main(int argc, char *argv[])
     auto vc1 = VehicleConfig(5, 35, 1, VehicleType::Car, sf::Color::Red, 10.f);
     auto vc2 = VehicleConfig(5, 35, 2, VehicleType::Car, sf::Color::Blue, 10.f);
 
+    auto cc1 = CameraConfig(190, 30, 90, sf::Color(0,255,0,200), 30);
+
     std::vector<RoadConfig> rcv;
     std::vector<VehicleConfig> vcv;
+    std::vector<CameraConfig> ccv;
 
     rcv.push_back(rc1);
     rcv.push_back(rc2);
     vcv.push_back(vc1);
-    vcv.push_back(vc2);
+    // vcv.push_back(vc2);
+    ccv.push_back(cc1);
 
-    auto config = Config(0,1,0,25,rcv,vcv);
+    auto config = Config(0,1,0,25,file,rcv,vcv,ccv);
     auto sim = Simulation(config);
     sim.run();
     return 0;

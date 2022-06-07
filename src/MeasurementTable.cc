@@ -28,6 +28,8 @@ MeasurementTable::MeasurementTable(int x, int y, double certainty, VehicleType v
     timestamp_ = timestamp.str();
 }
 
+MeasurementTable::~MeasurementTable(){}
+
 std::string MeasurementTable::prepareInsertQuery() const 
 {
     auto time = std::time(nullptr);

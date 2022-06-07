@@ -23,7 +23,7 @@ public:
     void setColor(const sf::Color& color);
 
 protected:
-    const int MAX_SPEED_ = 5;
+    static const int MAX_SPEED_ = 5;
     int x_;
     int y_;
     int speed_;

@@ -15,6 +15,7 @@ public:
     void update(const std::vector<Road>& roads) override;
     sf::RectangleShape getShape() const;
 private:
+    static constexpr float SPEED_TRANSLATION_ = 10.f;
     sf::RectangleShape shape_;
     Road last_road_;
 

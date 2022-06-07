@@ -52,6 +52,6 @@ bool VehicleGraphical::isOnTheRoad(const sf::FloatRect& bounding_box_shape, cons
 void VehicleGraphical::move(const Road& road)
 {
     auto prefered_move = road.getPreferedMove();
-    shape_.move(prefered_move.getHorizontal() * speed_, prefered_move.getVertical() * speed_);
+    shape_.move(prefered_move.getHorizontal() * speed_ / SPEED_TRANSLATION_, prefered_move.getVertical() * speed_ / SPEED_TRANSLATION_);
     last_road_ = road;
 }

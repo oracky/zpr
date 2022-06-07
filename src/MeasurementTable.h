@@ -12,7 +12,7 @@ class MeasurementTable : public SQLTable
 public:
     MeasurementTable();
     MeasurementTable(int x, int y, double certainty, VehicleType vehicle_type, CameraTable& camera, SimulationTable& simulation);
-    ~MeasurementTable() = default;
+    ~MeasurementTable();
     std::string prepareInsertQuery() const;
     void updateID(int new_id) override; 
     unsigned int getID() const;

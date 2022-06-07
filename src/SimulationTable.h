@@ -8,7 +8,7 @@ class SimulationTable : public SQLTable
 public:
     SimulationTable();
     SimulationTable(std::string& name);
-    ~SimulationTable() = default;
+    ~SimulationTable();
     std::string prepareInsertQuery() const override;
     void updateID(int new_id) override; 
     unsigned int getID() const;

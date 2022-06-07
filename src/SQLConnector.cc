@@ -4,7 +4,7 @@
 #endif
 #include "SQLConnector.h"
 
-SQLConnector::SQLConnector(std::string& filepath)
+SQLConnector::SQLConnector(const std::string& filepath)
 {
     sqlite3 *db;
     int connection_status = sqlite3_open(filepath.c_str(), &db);

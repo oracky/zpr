@@ -3,6 +3,7 @@
 #include "Simulation.h"
 
 SimulationTable::SimulationTable(){}
+SimulationTable::~SimulationTable(){}
 
 SimulationTable::SimulationTable(std::string& name) : name_(name) {}
 

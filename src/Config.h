@@ -56,21 +56,49 @@ private:
     sf::Color color_;
 };
 
+class CameraConfig
+{
+public:
+    CameraConfig(int x, int y, int rotation, const sf::Color& color, float size);
+    int getXCoordinate() const;
+    int getYCoordinate() const;
+    int getRotation() const;
+    float getSize() const;
+    sf::Color getColor() const;
+    void setXCoordinate(int x);
+    void setYCoordinate(int y);
+    void setRotation(int rotation);
+    void setSize(float size);
+    void setColor(const sf::Color& color);
+
+private:
+    int x_;
+    int y_;
+    int rotation_;
+    float size_;
+    sf::Color color_;
+};
+
 class Config
 {
 public:
-    Config(int pedestrian_number, int car_number, int truck_number, int road_number,
-     const std::vector<RoadConfig>& roads_config, const std::vector<VehicleConfig>& vehicle_config);
+    Config(int pedestrian_number, int car_number, int truck_number, int road_number, std::string database_file,
+     const std::vector<RoadConfig>& roads_config,
+     const std::vector<VehicleConfig>& vehicles_config,
+     const std::vector<CameraConfig>& cameras_config);
     int getPedestrianNumber() const;
     int getCarNumber() const;
     int getTruckNumber() const;
     int getRoadNumber() const;
+    std::string getDatabaseFilePath() const;
     std::vector<RoadConfig> getRoadsConfig() const;
     std::vector<VehicleConfig> getVehiclesConfig() const;
+    std::vector<CameraConfig> getCamerasConfig() const;
     void setPedestrianNumber(int number);
     void setCarNumber(int number);
     void setTruckNumber(int number);
     void setRoadNumber(int number);
+    void setDatabaseilePath(const std::string& path);
     void setRoadsConfig(const std::vector<RoadConfig>& roads_config);
     void setVehiclesConfig(const std::vector<VehicleConfig>& vehciles_config);
 
@@ -79,8 +107,10 @@ private:
     int car_number_;
     int truck_number_;
     int road_number_;
+    std::string database_file_;
     std::vector<RoadConfig> roads_config_;
     std::vector<VehicleConfig> vehicles_config_;
+    std::vector<CameraConfig> cameras_config_;
 };
 
 

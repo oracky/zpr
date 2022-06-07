@@ -7,8 +7,8 @@ class CameraTable : public SQLTable
 {
 public:
     CameraTable();
-    CameraTable(int x, int y, double visibility, double precision);
-    ~CameraTable() = default;
+    CameraTable(int x, int y, double visibility=1.0, double precision=1.0);
+    ~CameraTable();
     std::string prepareInsertQuery() const;
     void updateID(int new_id) override; 
     unsigned int getID() const;
