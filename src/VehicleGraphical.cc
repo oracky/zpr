@@ -12,6 +12,7 @@ VehicleGraphical::VehicleGraphical() {}
 VehicleGraphical::VehicleGraphical(int x, int y, int speed, const VehicleType& type, const sf::Color& color, float size)
     : Vehicle(x, y, speed, type, color), size_(size)
 {
+    setPreferedMove();
     shape_ = sf::RectangleShape(sf::Vector2f(size_, size_));
     shape_.setPosition(x_, y_);
     shape_.setFillColor(color_);
@@ -53,23 +54,7 @@ VehicleGraphical VehicleGraphical::spawnClone() const
 // }
 void VehicleGraphical::update(const std::vector<Road>& roads)
 {
-    auto bounding_box_shape = shape_.getGlobalBounds();
-    std::vector<Road> available_roads;
-
-    for (auto road : roads)
-    {
-        auto bounding_box_road = road.getShape().getGlobalBounds();
-
-        if (road != last_road_ && isOnTheRoad(bounding_box_shape, bounding_box_road))
-        {
-            available_roads.push_back(road);
-        }
-
-        // If the car has 2 available roads (which it intersects), we assume it is enough to make a choice
-        // if it should turn and where exactly (to boost efficency if there are a lot of roads)
-        if (available_roads.size() == 2)
-            break;
-    }
+    auto available_roads = findRoadIntersections(roads);
 
     if (!available_roads.empty())
     {
@@ -91,7 +76,7 @@ void VehicleGraphical::update(const std::vector<Road>& roads)
                 chosen_road = available_roads[road_index_choosen];
                 if (chosen_road != current_road_)
                 {
-                    last_road_ = current_road_;
+                    recent_road_ = current_road_;
                 }
                     
                 else
@@ -100,7 +85,7 @@ void VehicleGraphical::update(const std::vector<Road>& roads)
                     {
                         if ( road != current_road_)
                         {
-                            last_road_ = road;
+                            recent_road_ = road;
                             break;
                         }
                     }
@@ -159,9 +144,8 @@ void VehicleGraphical::move(Road& road, int boost)
         y_ -= y_align;
     }
         
-
-    x_ += prefered_move.getHorizontal() * speed_ / SPEED_TRANSLATION_;
-    y_ += prefered_move.getVertical() * speed_  / SPEED_TRANSLATION_;
+    x_ += prefered_move.getHorizontal() * prefered_move_.getHorizontal() * speed_ / SPEED_TRANSLATION_;
+    y_ += prefered_move.getVertical() * prefered_move_.getVertical() * speed_  / SPEED_TRANSLATION_;
     shape_.setPosition(x_, y_);
 
     current_road_ = road;
@@ -174,4 +158,43 @@ int VehicleGraphical::generateRandomMove(const int & min, const int & max) const
     static thread_local std::mt19937 generator;
     std::uniform_int_distribution<int> distribution(min,max);
     return distribution(generator);
+}
+
+std::vector<Road> VehicleGraphical::findRoadIntersections(const std::vector<Road>& roads)
+{
+    std::vector<Road> available_roads;
+    auto bounding_box_shape = shape_.getGlobalBounds();
+
+    for (auto road : roads)
+    {
+        auto bounding_box_road = road.getShape().getGlobalBounds();
+
+        if (road != recent_road_ && isOnTheRoad(bounding_box_shape, bounding_box_road))
+        {
+            available_roads.push_back(road);
+        }
+
+        // If the car has 2 available roads (which it intersects), we assume it is enough to make a choice
+        // if it should turn and where exactly (to boost efficency if there are a lot of roads)
+        if (available_roads.size() == 2)
+            break;
+    }
+
+    return available_roads;
+}
+
+void VehicleGraphical::setPreferedMove()
+{
+    auto prefered_move_h = generateRandomMove(0,1);
+    auto prefered_move_v = generateRandomMove(0,1);
+    
+    if (prefered_move_h == 1)
+        prefered_move_.setHorizontal(MoveType::RIGHT);
+    else
+        prefered_move_.setHorizontal(MoveType::LEFT);
+
+    if (prefered_move_v == 1)
+        prefered_move_.setVertical(MoveType::DOWN);
+    else
+        prefered_move_.setVertical(MoveType::UP);
 }

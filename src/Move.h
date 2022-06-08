@@ -19,6 +19,9 @@ public:
     MoveType getVerticalMoveType() const;
     float getHorizontal() const;
     MoveType getHorizontalMoveType() const;
+    void setHorizontal(MoveType type);
+    void setVertical(MoveType type);
+
 private:
     MoveType vertical_;
     MoveType horizontal_;
