@@ -12,6 +12,7 @@
 #include "MeasurementTable.h"
 #include "VehicleType.hpp"
 #include "Simulation.h"
+#include "Road.h"
 
 int main(int argc, char *argv[])
 {
@@ -122,14 +123,15 @@ int main(int argc, char *argv[])
 //     }
     std::string file = "../zpr.db";
 
-    auto rc1 = RoadConfig(5, 25, 150.f, 20.f, Move(MoveType::RIGHT, MoveType::NONE));
-    auto rc2 = RoadConfig(175, 5, 150.f, 20.f, Move(MoveType::NONE, MoveType::DOWN), 90);
+    auto rc1 = RoadConfig(0, 125, 650.f, 20.f, Move(MoveType::RIGHT, MoveType::NONE));
+    auto rc2 = RoadConfig(135, 10, 350.f, 20.f, Move(MoveType::NONE, MoveType::DOWN), 90);
+    auto rc3 = RoadConfig(235, 10, 650.f, 20.f, Move(MoveType::NONE, MoveType::UP), 90);
 
-    // auto vc1 = VehicleConfig(5, 35, 1, VehicleType::Car, sf::Color::Red, 10.f);
-    auto vc1 = VehicleConfig(5, 35, 1, VehicleType::Car, sf::Color::Red, 10.f);
-    auto vc2 = VehicleConfig(5, 35, 2, VehicleType::Car, sf::Color::Blue, 10.f);
+    // auto vc1 = VehicleConfig(5, 35, 1, VehicleType::CAR, sf::Color::Red, 10.f);
+    auto vc1 = VehicleConfig(5, 135, 3, VehicleType::CAR, sf::Color::Red, 10.f);
+    auto vc2 = VehicleConfig(5, 135, 10, VehicleType::TRUCK, sf::Color::Blue, 10.f);
 
-    auto cc1 = CameraConfig(190, 30, 90, sf::Color(0,255,0,200), 30);
+    auto cc1 = CameraConfig(260, 30, 90, sf::Color(0,255,0,200), 30);
 
     std::vector<RoadConfig> rcv;
     std::vector<VehicleConfig> vcv;
@@ -137,11 +139,14 @@ int main(int argc, char *argv[])
 
     rcv.push_back(rc1);
     rcv.push_back(rc2);
+    rcv.push_back(rc3);
     vcv.push_back(vc1);
-    // vcv.push_back(vc2);
+    vcv.push_back(vc2);
     ccv.push_back(cc1);
 
-    auto config = Config(0,1,0,25,file,rcv,vcv,ccv);
+    int refresh_rate = 1000;
+
+    auto config = Config(file,refresh_rate,rcv,vcv,ccv);
     auto sim = Simulation(config);
     sim.run();
     return 0;

@@ -1,24 +1,17 @@
 #include "Config.h"
 
 
-Config::Config(int pedestrian_number, int car_number, int truck_number, int road_number, std::string database_file,
+Config::Config(std::string database_file, int refresh,
  const std::vector<RoadConfig>& roads_config,  const std::vector<VehicleConfig>& vehicles_config,
  const std::vector<CameraConfig>& cameras_config)
-    : pedestrian_number_(pedestrian_number), car_number_(car_number), truck_number_(truck_number), road_number_(road_number),
-      database_file_(database_file), roads_config_(roads_config), vehicles_config_(vehicles_config), cameras_config_(cameras_config) {}
+    : database_file_(database_file), measure_refresh_rate_ms_(refresh), roads_config_(roads_config), vehicles_config_(vehicles_config), cameras_config_(cameras_config) {}
 
-int Config::getCarNumber() const { return car_number_; }
-int Config::getPedestrianNumber() const { return pedestrian_number_; }
-int Config::getTruckNumber() const { return truck_number_; }
-int Config::getRoadNumber() const { return road_number_; }
+int Config::getRefreshRate() const { return measure_refresh_rate_ms_; }
 std::string Config::getDatabaseFilePath() const { return database_file_; }
 std::vector<RoadConfig> Config::getRoadsConfig() const { return roads_config_; }
 std::vector<VehicleConfig> Config::getVehiclesConfig() const { return vehicles_config_; }
 std::vector<CameraConfig> Config::getCamerasConfig() const { return cameras_config_; }
-void Config::setCarNumber(int number) { car_number_ = number; }
-void Config::setPedestrianNumber(int number) { pedestrian_number_ = number; }
-void Config::setTruckNumber(int number) { truck_number_ = number; }
-void Config::setRoadNumber(int number) { road_number_ = number; }
+void Config::setRefreshRate(int refresh) { measure_refresh_rate_ms_ = refresh; }
 void Config::setDatabaseilePath(const std::string& path) { database_file_ = path; }
 void Config::setRoadsConfig(const std::vector<RoadConfig>& roads_config) { roads_config_ = roads_config;}
 void Config::setVehiclesConfig(const std::vector<VehicleConfig>& vehicles_config) { vehicles_config_ = vehicles_config;}

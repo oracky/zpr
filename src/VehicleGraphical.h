@@ -13,13 +13,18 @@ public:
     VehicleGraphical();
     VehicleGraphical(int x, int y, int speed, const VehicleType& type, const sf::Color& color, float size);
     void update(const std::vector<Road>& roads) override;
+    VehicleGraphical spawnClone() const;
     sf::RectangleShape getShape() const;
 private:
-    static constexpr float SPEED_TRANSLATION_ = 10.f;
+    static constexpr float SPEED_TRANSLATION_ = 15.f;
+    float size_;
     sf::RectangleShape shape_;
+    Road current_road_;
     Road last_road_;
 
-    void move(const Road& road);
+    int generateRandomMove(const int & min, const int & max) const;
+    void move(Road& road, int boost = 0);
+    void move(Road& road, Road& current_road, int boost);
     bool isOnTheRoad(const sf::FloatRect& bounding_box_shape, const sf::FloatRect& bounding_box_road);
 };
 

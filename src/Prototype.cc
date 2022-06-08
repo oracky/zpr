@@ -23,7 +23,7 @@ int prototype(int argc, char *argv[])
    // CameraTable camera_table(1, 3, 0.2, 0.3);
    // database->insertData(camera_table);
 
-   // MeasurementTable measurement_table(5, 6, 1.2, VehicleType::Car, camera_table, simulation_table);
+   // MeasurementTable measurement_table(5, 6, 1.2, VehicleType::CAR, camera_table, simulation_table);
    // database->insertData(measurement_table);
    // sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
    //  sf::CircleShape shape(25.f);

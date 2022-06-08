@@ -16,7 +16,9 @@ public:
     Move();
     Move(MoveType horizontal, MoveType vertical);
     float getVertical() const;
+    MoveType getVerticalMoveType() const;
     float getHorizontal() const;
+    MoveType getHorizontalMoveType() const;
 private:
     MoveType vertical_;
     MoveType horizontal_;

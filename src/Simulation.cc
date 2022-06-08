@@ -26,14 +26,11 @@ void Simulation::run()
     setVehiclesForSimulation();
     setCamerasForSimulation();
 
-    // auto job1 = ParallelMeasurement();
-    // job1.startThread();
-    // job1.parallel();
-    // auto job2 = ParallelSave();
-    // job2.startThread();
-    // job2.parallel();
+
+    can_monitor_ = true;
     std::thread t1(&Simulation::measureLoop, this);
     std::thread t2(&Simulation::savingLoop, this);
+    std::thread t3(&Simulation::spawnLoop, this);
 
      while (window.isOpen())
     {
@@ -41,20 +38,22 @@ void Simulation::run()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+                can_monitor_ = false;
+            }
+                
         }
 
         window.clear(sf::Color::Black);
-
         updateMap();
         drawObjects(&window);
-
         window.display();
-        // usleep(10*1000);
-        
     }
+
     t1.join();
     t2.join();
+    t3.join();
 ;}
 
 void Simulation::setRoadSystemForSimulation()
@@ -94,7 +93,18 @@ void Simulation::updateMap()
 {
     for (auto& vehicle : vehicles_)
     {
-        vehicle.update(roads_);
+        if(vehicle.isActive())
+            vehicle.update(roads_);
+        else
+        {
+            if(!vehicle.wasRespawned())
+            {
+                inactive_vehicles_mutex_.lock();
+                inactive_vehicles_.push(vehicle);
+                inactive_vehicles_mutex_.unlock();
+                vehicle.setRespawn();
+            }
+        }
     }
 }
 
@@ -105,11 +115,30 @@ void Simulation::makeMeasurements()
         for (auto& vehicle : vehicles_)
         {
             auto measurement = camera.makeMeasurement(vehicle);
-            measurement_mutex_.lock();
-            measurements_.push(measurement);
-            measurement_mutex_.unlock();
+            if (measurement.getCertainty() != -1)
+            {
+                measurement_mutex_.lock();
+                measurements_.push(measurement);
+                measurement_mutex_.unlock();
+            }
+            
         }
         
+    }
+}
+
+void Simulation::spawn()
+{
+    while(!inactive_vehicles_.empty())
+    {
+        inactive_vehicles_mutex_.lock();
+        auto vehicle = inactive_vehicles_.front();
+        inactive_vehicles_.pop();
+        inactive_vehicles_mutex_.unlock();
+
+        
+        auto new_vehicle = vehicle.spawnClone();
+        vehicles_.push_back(new_vehicle);
     }
 }
 
@@ -139,26 +168,38 @@ void Simulation::drawObjects(sf::RenderWindow* window)
 
     for (const auto& vehicle : vehicles_)
     {
-        window->draw(vehicle.getShape());
+        if(vehicle.isActive())
+            window->draw(vehicle.getShape());
     }
 
 }
 
 void Simulation::measureLoop()
 {
-    while (true)
+    while (can_monitor_)
     {
         makeMeasurements();
-
+        std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate()));
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    
 }
 
 void Simulation::savingLoop()
 {
-    while (true)
+    while (can_monitor_)
     {
         saveMeasurements();
+        std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate()));
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    
+}
+
+void Simulation::spawnLoop()
+{
+    while (can_monitor_)
+    {
+        spawn();
+        std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate() * 3));
+    }
+    
 }

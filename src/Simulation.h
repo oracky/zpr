@@ -2,6 +2,7 @@
 #define Simulation_H
 
 #include <vector>
+#include <list>
 #include <queue>
 #include <mutex>
 #include <SFML/Graphics.hpp>
@@ -19,6 +20,7 @@ public:
     Simulation(const Config& config);
     void run();
 private:
+    bool can_monitor_;
     Config config_;
     SimulationTable simulation_info_;
     sf::RenderWindow window_;
@@ -26,7 +28,10 @@ private:
     std::vector<VehicleGraphical> vehicles_;
     std::vector<Camera> cameras_;
     std::queue<MeasurementTable> measurements_;
+    std::queue<VehicleGraphical> inactive_vehicles_;
     std::mutex measurement_mutex_;
+    std::mutex vehicles_mutex_;
+    std::mutex inactive_vehicles_mutex_;
     std::unique_ptr<SQLConnector> db_;
 
 
@@ -34,10 +39,12 @@ private:
     void setVehiclesForSimulation();
     void setCamerasForSimulation();
     void updateMap();
+    void spawn();
     void makeMeasurements();
     void saveMeasurements();
     void measureLoop();
     void savingLoop();
+    void spawnLoop();
     void drawObjects(sf::RenderWindow* window);
 };
 

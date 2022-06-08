@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Move.h"
+#include "Road.h"
 #include "VehicleType.hpp"
 
 class RoadConfig
@@ -22,6 +23,7 @@ public:
     void setLength(float length);
     void setWidth(float width);
     void setPreferedMove(const Move& prefered_move);
+
 private:
     int x_;
     int y_;
@@ -82,22 +84,17 @@ private:
 class Config
 {
 public:
-    Config(int pedestrian_number, int car_number, int truck_number, int road_number, std::string database_file,
+    Config(std::string database_file, int refresh_rate,
      const std::vector<RoadConfig>& roads_config,
      const std::vector<VehicleConfig>& vehicles_config,
      const std::vector<CameraConfig>& cameras_config);
-    int getPedestrianNumber() const;
-    int getCarNumber() const;
-    int getTruckNumber() const;
-    int getRoadNumber() const;
+     
+    int getRefreshRate() const;
     std::string getDatabaseFilePath() const;
     std::vector<RoadConfig> getRoadsConfig() const;
     std::vector<VehicleConfig> getVehiclesConfig() const;
     std::vector<CameraConfig> getCamerasConfig() const;
-    void setPedestrianNumber(int number);
-    void setCarNumber(int number);
-    void setTruckNumber(int number);
-    void setRoadNumber(int number);
+    void setRefreshRate(int refresh);
     void setDatabaseilePath(const std::string& path);
     void setRoadsConfig(const std::vector<RoadConfig>& roads_config);
     void setVehiclesConfig(const std::vector<VehicleConfig>& vehciles_config);
@@ -107,6 +104,7 @@ private:
     int car_number_;
     int truck_number_;
     int road_number_;
+    int measure_refresh_rate_ms_;
     std::string database_file_;
     std::vector<RoadConfig> roads_config_;
     std::vector<VehicleConfig> vehicles_config_;

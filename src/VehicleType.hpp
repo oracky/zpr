@@ -3,10 +3,10 @@
 
 enum class VehicleType
 {
-    Pedestrian,
-    Car,
-    Truck,
-    None
+    PEDESTRIAN,
+    CAR,
+    TRUCK,
+    NONE
 };
 
 #endif

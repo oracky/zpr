@@ -35,7 +35,7 @@ MeasurementTable Camera::makeMeasurement(const VehicleGraphical& vehicle)
                                 1, vehicle.getVehicleType(), camera_info_, simulation_info_);
     }
     
-    return MeasurementTable(-1, -1, -1, VehicleType::None, camera_info_, simulation_info_);
+    return MeasurementTable(-1, -1, -1, VehicleType::NONE, camera_info_, simulation_info_);
 }
 
 

@@ -53,9 +53,6 @@ void SQLConnector::insertData(SQLTable& table)
     }
 
     else {
-        #ifdef DEBUG
-            std::cout << "After query: " << std::endl;
-        #endif
         table.updateID(sqlite3_last_insert_rowid(db_));
     } 
 
