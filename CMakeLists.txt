@@ -15,13 +15,14 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 include(CTest)
 enable_testing()
 add_subdirectory(test)
-add_test(NAME zpr_test COMMAND Test)
+add_test(NAME CAMERA_TEST COMMAND TestCamera)
+add_test(NAME VEHICLE_TEST COMMAND TestVehicle)
+add_test(NAME ROAD_TEST COMMAND TestRoad)
 
 # ### Dependencies ###
 # add_subdirectory(dependencies)
 
 ### Main Targets ###
 add_subdirectory(src)
-
 
 target_compile_options(Main PRIVATE -lsqlite3)
