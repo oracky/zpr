@@ -18,6 +18,7 @@ add_subdirectory(test)
 add_test(NAME CAMERA_TEST COMMAND TestCamera)
 add_test(NAME VEHICLE_TEST COMMAND TestVehicle)
 add_test(NAME ROAD_TEST COMMAND TestRoad)
+add_test(NAME SQL_TEST COMMAND TestSQL)
 
 # ### Dependencies ###
 # add_subdirectory(dependencies)

@@ -13,6 +13,10 @@ add_definitions (-DBOOST_TEST_DYN_LINK)
 add_executable (TestCamera TestCamera.cc)
 add_executable (TestVehicle TestVehicle.cc)
 add_executable (TestRoad TestRoad.cc)
+add_executable (TestSQL TestSQL.cc)
+
 target_link_libraries (TestCamera ${LIBRARIES_FOR_TESTS})
 target_link_libraries (TestVehicle ${LIBRARIES_FOR_TESTS})
 target_link_libraries (TestRoad ${LIBRARIES_FOR_TESTS})
+target_link_libraries (TestSQL ${LIBRARIES_FOR_TESTS} sqlite3)
+
