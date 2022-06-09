@@ -194,13 +194,13 @@ void Config::parseInputArgs(int argc, char** argv)
         break;
     case 3:
         std::cout << "Provided " << argv[1] << " as a path to database." << std::endl
-                  << "Provided " << argv[2] << " as a refresh rate for measurements and database saving. Other configuration information is set to default." << std::endl;
+                  << "Provided " << argv[2] << "ms as a refresh rate for measurements and database saving. Other configuration information is set to default." << std::endl;
         database_file_ = argv[1];
         measure_refresh_rate_ms_ = std::strtol(argv[2], &pEnd, 10);
         break;
     case 4:
         std::cout << "Provided " << argv[1] << " as a path to database." << std::endl
-                  << "Provided " << argv[2] << " as a refresh rate for measurements and database saving." << std::endl
+                  << "Provided " << argv[2] << "ms as a refresh rate for measurements and database saving." << std::endl
                   << "Provided " << argv[3] << " as a path to roads config. Other configuration information is set to default." << std::endl;
         database_file_ = argv[1];
         measure_refresh_rate_ms_ = std::strtol(argv[2], &pEnd, 10);
@@ -208,7 +208,7 @@ void Config::parseInputArgs(int argc, char** argv)
         break;
     case 5:
         std::cout << "Provided " << argv[1] << " as a path to database." << std::endl
-                  << "Provided " << argv[2] << " as a refresh rate for measurements and database saving." << std::endl
+                  << "Provided " << argv[2] << "ms as a refresh rate for measurements and database saving." << std::endl
                   << "Provided " << argv[3] << " as a path to roads config. " << std::endl
                   << "Provided " << argv[4] << " as a path to vehciles config. Other configuration information is set to default." << std::endl;
         database_file_ = argv[1];
@@ -218,7 +218,7 @@ void Config::parseInputArgs(int argc, char** argv)
         break;
     case 6:
         std::cout << "Provided " << argv[1] << " as a path to database." << std::endl
-                  << "Provided " << argv[2] << " as a refresh rate for measurements and database saving." << std::endl
+                  << "Provided " << argv[2] << "ms as a refresh rate for measurements and database saving." << std::endl
                   << "Provided " << argv[3] << " as a path to roads config."  << std::endl
                   << "Provided " << argv[4] << " as a path to vehciles config." << std::endl
                   << "Provided " << argv[5] << " as a path to cameras config." << std::endl;

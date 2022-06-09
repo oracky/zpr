@@ -32,3 +32,8 @@ endif(UNIX)
 # endif(UNIX)
 
 target_link_libraries(Main PRIVATE Simulation Threads::Threads sqlite3 sfml-audio sfml-graphics sfml-network sfml-system)
+if (MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
+endif(MSVC)
