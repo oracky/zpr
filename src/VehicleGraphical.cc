@@ -71,7 +71,6 @@ void VehicleGraphical::update(const std::vector<Road>& roads)
             else
             {
                 road_index_choosen = generateRandomMove(0, available_roads.size()-1);
-                std::cout << road_index_choosen << std::endl;
                 
                 chosen_road = available_roads[road_index_choosen];
                 if (chosen_road != current_road_)
