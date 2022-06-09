@@ -1,12 +1,19 @@
+#include <thread>
+#include <chrono>
 #include "Simulation.h"
 #include "Config.h"
 #include "Road.h"
 #include "Camera.h"
 #include "SQLConnector.h"
 #include "SimulationTable.h"
-#include <thread>
-#include <chrono>
 
+
+/**
+ * The constructor for the Simulation class takes a Config object as an argument and uses it to
+ * initialize the simulation_info_ member variable and the db_ member variable
+ * 
+ * @param config The configuration object that contains the parameters for the simulation.
+ */
 Simulation::Simulation(const Config& config) : config_(config)
 {
     std::string name = "Simulation";
@@ -15,6 +22,10 @@ Simulation::Simulation(const Config& config) : config_(config)
     db_->insertData(simulation_info_);
 }
 
+/**
+ * The function `run()` is the main function of the simulation. It creates a window, sets up the
+ * simulation, and then runs the simulation
+ */
 void Simulation::run() 
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME);
@@ -22,7 +33,6 @@ void Simulation::run()
     setRoadSystemForSimulation();
     setVehiclesForSimulation();
     setCamerasForSimulation();
-
 
     can_monitor_ = true;
     std::thread t1(&Simulation::measureLoop, this);
@@ -51,6 +61,10 @@ void Simulation::run()
     t2.join();
 ;}
 
+/**
+ * This function takes the road configuration from the config file and creates a road object for each
+ * road
+ */
 void Simulation::setRoadSystemForSimulation()
 {
     for (const auto& road_config : config_.getRoadsConfig())
@@ -62,6 +76,10 @@ void Simulation::setRoadSystemForSimulation()
 
 }
 
+/**
+ * It takes the vehicle configuration from the configuration file and creates a vehicle object for each
+ * vehicle
+ */
 void Simulation::setVehiclesForSimulation()
 {
     for (const auto& vehicle_config : config_.getVehiclesConfig())
@@ -72,6 +90,9 @@ void Simulation::setVehiclesForSimulation()
     }
 }
 
+/**
+ * It creates a camera object for each camera in the configuration file and stores it in a vector. The information about the camera is stored in the database.
+ */
 void Simulation::setCamerasForSimulation()
 {
     for (const auto& cameras_config : config_.getCamerasConfig())
@@ -84,6 +105,10 @@ void Simulation::setCamerasForSimulation()
     }
 }
 
+/**
+ * It updates the map on every iteration of main loop in Simulation::run function.
+ * It checks if the vehicle is active (is on any road), if yes update vehicle status else spawn it in the initial location. 
+ */
 void Simulation::updateMap()
 {
     for (auto& vehicle : vehicles_)
@@ -95,6 +120,9 @@ void Simulation::updateMap()
     }
 }
 
+/**
+ * It creates measurements for each camera and put them into measurements queue.
+ */
 void Simulation::makeMeasurements()
 {
     for (auto& camera: cameras_)
@@ -113,7 +141,9 @@ void Simulation::makeMeasurements()
     }
 }
 
-
+/**
+ * > This function takes the measurements from the queue and inserts them into the database
+ */
 void Simulation::saveMeasurements()
 {
     while(!measurements_.empty())
@@ -125,6 +155,11 @@ void Simulation::saveMeasurements()
     }
 }
 
+/**
+ * It draws all the objects in the simulation
+ * 
+ * @param window The window to draw the objects to.
+ */
 void Simulation::drawObjects(sf::RenderWindow* window)
 {
     for (const auto& road : roads_)
@@ -145,6 +180,10 @@ void Simulation::drawObjects(sf::RenderWindow* window)
 
 }
 
+/**
+ * The function `measureLoop()` is a loop that runs in a separate thread and makes measurements of the
+ * vehicles at a rate specified by the config.
+ */
 void Simulation::measureLoop()
 {
     while (can_monitor_)
@@ -155,12 +194,14 @@ void Simulation::measureLoop()
     
 }
 
+/**
+ The function `savingLoop()` is a loop that runs in a separate thread and saves taken measurements.
+ */
 void Simulation::savingLoop()
 {
     while (can_monitor_)
     {
         saveMeasurements();
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate()));
-    }
-    
+    } 
 }

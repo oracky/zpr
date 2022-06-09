@@ -26,8 +26,7 @@ private:
     int generateRandomMove(const int & min, const int & max) const;
     void setPreferedMove();
     void markRecentRoad();
-    void move(Road& road, int boost = 0);
-    void move(Road& road, Road& current_road, int boost);
+    void move(Road& road);
     bool isOnTheRoad(const sf::FloatRect& bounding_box_shape, const sf::FloatRect& bounding_box_road);
     std::vector<Road> findRoadIntersections(const std::vector<Road>& roads);
 };

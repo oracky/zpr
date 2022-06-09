@@ -6,7 +6,21 @@
 #include "Move.h"
 
 
+/**
+ * A constructor for the VehicleGraphical class.
+ */
 VehicleGraphical::VehicleGraphical() {}
+
+/**
+ * It creates a graphical vehicle
+ * 
+ * @param x The x position of the vehicle
+ * @param y The y coordinate of the vehicle
+ * @param speed The speed of the vehicle.
+ * @param type The type of vehicle.
+ * @param color The color of the vehicle
+ * @param size The size of the vehicle.
+ */
 VehicleGraphical::VehicleGraphical(int x, int y, int speed, const VehicleType& type, const sf::Color& color, float size)
     : Vehicle(x, y, speed, type, color), size_(size)
 {
@@ -16,12 +30,22 @@ VehicleGraphical::VehicleGraphical(int x, int y, int speed, const VehicleType& t
     shape_.setFillColor(color_);
 }
 
+/**
+ * It returns a new VehicleGraphical object that is a copy of the current object
+ * 
+ * @return A VehicleGraphical object.
+ */
 VehicleGraphical VehicleGraphical::spawnClone() const
 {
     return VehicleGraphical(initial_x_, initial_y_, speed_, type_, color_, size_);
 }
 
-
+/**
+ * The function finds all the roads that the vehicle can move to, and then chooses one of them randomly
+ * 
+ * @param roads A vector of all the roads in the simulation.
+ * 
+ */
 void VehicleGraphical::update(const std::vector<Road>& roads)
 {
     auto available_roads = findRoadIntersections(roads);
@@ -77,17 +101,35 @@ void VehicleGraphical::update(const std::vector<Road>& roads)
     }
 
     move(current_road_);
-
 }
 
+/**
+ * This function returns the shape object of the vehicle
+ * 
+ * @return The shape of the vehicle.
+ */
 sf::RectangleShape VehicleGraphical::getShape() const { return shape_; }
 
+/**
+ * The function returns true if the bounding box of the shape intersects with the bounding box of the
+ * road meaning if the car is on the road.
+ * 
+ * @param bounding_box_shape The bounding box of the shape that you want to check if it's on the road.
+ * @param bounding_box_road The bounding box of the road.
+ * 
+ * @return A boolean value.
+ */
 bool VehicleGraphical::isOnTheRoad(const sf::FloatRect& bounding_box_shape, const sf::FloatRect& bounding_box_road)
 {
     return bounding_box_shape.intersects(bounding_box_road);
 }
 
-void VehicleGraphical::move(Road& road, int boost)
+/**
+ * It moves the vehicle on the road
+ * 
+ * @param road The road the vehicle is currently on.
+ */
+void VehicleGraphical::move(Road& road)
 {
     auto prefered_move = road.getPreferedMove();
 
@@ -120,8 +162,14 @@ void VehicleGraphical::move(Road& road, int boost)
     current_road_ = road;
 }
 
-
-
+/**
+ * It generates a random number between the min and max values passed to it (thread safe).
+ * 
+ * @param min The minimum value that can be generated.
+ * @param max the maximum value of the random number
+ * 
+ * @return A random number between min and max.
+ */
 int VehicleGraphical::generateRandomMove(const int & min, const int & max) const
 {
     static thread_local std::mt19937 generator;
@@ -129,6 +177,13 @@ int VehicleGraphical::generateRandomMove(const int & min, const int & max) const
     return distribution(generator);
 }
 
+/**
+ * It finds all the roads that the car intersects with
+ * 
+ * @param roads a vector of all the roads in the map
+ * 
+ * @return A vector of roads
+ */
 std::vector<Road> VehicleGraphical::findRoadIntersections(const std::vector<Road>& roads)
 {
     std::vector<Road> available_roads;
@@ -152,6 +207,9 @@ std::vector<Road> VehicleGraphical::findRoadIntersections(const std::vector<Road
     return available_roads;
 }
 
+/**
+ * It generates a random prefered move for the vehicle
+ */
 void VehicleGraphical::setPreferedMove()
 {
     auto prefered_move_h = generateRandomMove(0,1);

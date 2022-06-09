@@ -22,6 +22,7 @@ Road::Road() : active_(false) {}
  * @param preferedMove The direction the road wants the car to move in.
  * @param rotation_degrees The angle of rotation of the road.
  */
+
 Road::Road(int x, int y, float length, float width, const Move& preferedMove, int rotation_degrees)
     : x_(x), y_(y), length_(length), width_(width), prefered_move_(preferedMove), rotation_degrees_(rotation_degrees % 360), active_(true)
 {
@@ -31,9 +32,7 @@ Road::Road(int x, int y, float length, float width, const Move& preferedMove, in
     shape_.rotate(rotation_degrees_);
 }
 
-/**
- * `void Road::setPreferedMove(const Move& new_move) { prefered_move_ = new_move; }`
- * 
+/** 
  * This function takes in a `Move` object and sets the `prefered_move_` variable to the `new_move`
  * variable
  * 
@@ -51,23 +50,22 @@ Move Road::getOppositePreferedMove() const
     return Move(static_cast<MoveType>(-prefered_move_.getHorizontal()), static_cast<MoveType>(-prefered_move_.getVertical()));
 }
 
-
 /**
- * `getShape` returns the shape of the road.
+ * The function `getShape` returns the shape of the road.
  * 
  * @return The shape of the road.
  */
 sf::RectangleShape Road::getShape() const { return shape_; }
 
 /**
- * `getPreferedMove` returns the prefered move of the road
+ * The function `getPreferedMove` returns the prefered move of the road
  * 
  * @return The prefered move of the road.
  */
 Move Road::getPreferedMove() const { return prefered_move_; }
 
 /**
- * `isActive` checks if the road is active
+ * The function `isActive` checks if the road is active
  * 
  * @return The value of the active_ variable.
  */
@@ -116,8 +114,6 @@ int Road::alignYToCenter(int y) const
         return y - (y_ + width_ / 4);
     return 0;
 }
-
-
 
 /**
  * It sets the direction of the road based on the rotation of the road

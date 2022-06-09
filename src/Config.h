@@ -139,7 +139,7 @@ public:
     std::vector<VehicleConfig> getVehiclesConfig() const;
     std::vector<CameraConfig> getCamerasConfig() const;
     void setRefreshRate(int refresh);
-    void setDatabaseilePath(const std::string& path);
+    void setDatabaseFilePath(const std::string& path);
     void setRoadsConfig(const std::vector<RoadConfig>& roads_config);
     void setVehiclesConfig(const std::vector<VehicleConfig>& vehciles_config);
     void readConfig(const std::string& path, RowObjectPlacementConfigBase& config_instance);

@@ -15,7 +15,7 @@ find_package (SFML COMPONENTS system graphics audio network REQUIRED)
 # add_library(Simulation Simulation.cpp Simulation.h)
 # add_library(SQLTables ${SQLTABLES_LIB_FILES})
 add_library(Simulation ${SIMULATION_LIB_FILES})
-add_executable(Main Main.cpp)
+add_executable(Main Main.cc)
 
 if(UNIX)
     set(LINUX_LINK_DIRS /usr/lib)
