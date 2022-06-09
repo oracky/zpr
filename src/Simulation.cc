@@ -30,7 +30,6 @@ void Simulation::run()
     can_monitor_ = true;
     std::thread t1(&Simulation::measureLoop, this);
     std::thread t2(&Simulation::savingLoop, this);
-    std::thread t3(&Simulation::spawnLoop, this);
 
      while (window.isOpen())
     {
@@ -53,7 +52,6 @@ void Simulation::run()
 
     t1.join();
     t2.join();
-    t3.join();
 ;}
 
 void Simulation::setRoadSystemForSimulation()
@@ -96,15 +94,7 @@ void Simulation::updateMap()
         if(vehicle.isActive())
             vehicle.update(roads_);
         else
-        {
-            if(!vehicle.wasRespawned())
-            {
-                inactive_vehicles_mutex_.lock();
-                inactive_vehicles_.push(vehicle);
-                inactive_vehicles_mutex_.unlock();
-                vehicle.setRespawn();
-            }
-        }
+            vehicle = vehicle.spawnClone();
     }
 }
 
@@ -117,9 +107,8 @@ void Simulation::makeMeasurements()
             auto measurement = camera.makeMeasurement(vehicle);
             if (measurement.getCertainty() != -1)
             {
-                measurement_mutex_.lock();
+                std::lock_guard<std::mutex> lock(measurement_mutex_);
                 measurements_.push(measurement);
-                measurement_mutex_.unlock();
             }
             
         }
@@ -127,29 +116,14 @@ void Simulation::makeMeasurements()
     }
 }
 
-void Simulation::spawn()
-{
-    while(!inactive_vehicles_.empty())
-    {
-        inactive_vehicles_mutex_.lock();
-        auto vehicle = inactive_vehicles_.front();
-        inactive_vehicles_.pop();
-        inactive_vehicles_mutex_.unlock();
-
-        
-        auto new_vehicle = vehicle.spawnClone();
-        vehicles_.push_back(new_vehicle);
-    }
-}
 
 void Simulation::saveMeasurements()
 {
     while(!measurements_.empty())
     {
-        measurement_mutex_.lock();
+        std::lock_guard<std::mutex> lock(measurement_mutex_);
         auto measurement = measurements_.front();
         measurements_.pop();
-        measurement_mutex_.unlock();
         db_->insertData(measurement);
     }
 }
@@ -190,16 +164,6 @@ void Simulation::savingLoop()
     {
         saveMeasurements();
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate()));
-    }
-    
-}
-
-void Simulation::spawnLoop()
-{
-    while (can_monitor_)
-    {
-        spawn();
-        std::this_thread::sleep_for(std::chrono::milliseconds(config_.getRefreshRate() * 3));
     }
     
 }

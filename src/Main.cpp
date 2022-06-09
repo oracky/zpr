@@ -3,6 +3,8 @@
 #include <math.h> 
 #include <memory>
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include <stdio.h>
 #include <unistd.h>
 #include <SFML/Graphics.hpp>
@@ -24,62 +26,129 @@ void setConfigsForRoads(std::vector<RoadConfig>& configs, int roads_number, Road
     for (int i=1; i<=roads_number; ++i)
     {
         std::cout << i * margin_x + initial_x << " | " << i * margin_y + initial_y<< std::endl;
-        auto rc = RoadConfig(i * margin_x + initial_x, i * margin_y + initial_y, length, width, move, rotate);
-        configs.push_back(rc);
+        auto road_config = RoadConfig(i * margin_x + initial_x, i * margin_y + initial_y, length, width, move, rotate);
+        configs.push_back(road_config);
     }
 }
 
-// void setConfigForVehicles()
+void setConfigsForVehicles(std::vector<VehicleConfig>& v_configs, std::vector<RoadConfig>& roads, int car_number, int truck_number, int pedestrian_number)
+{
+    while(car_number > 0 && truck_number > 0 && pedestrian_number > 0)
+    {
+        for (auto& road : roads)
+        {
+            if ( car_number > 0)
+            {
+                auto vehicle_config = VehicleConfig(road.getXCoordinate(), road.getYCoordinate(), 7, VehicleType::CAR, sf::Color::Blue, 10.f);
+                v_configs.push_back(vehicle_config);
+                --car_number;
+            }
+            if ( truck_number > 0)
+            {
+                auto vehicle_config = VehicleConfig(road.getXCoordinate(), road.getYCoordinate(), 5, VehicleType::TRUCK, sf::Color::Black, 10.f);
+                v_configs.push_back(vehicle_config);
+                --truck_number;
+            }
+            if ( pedestrian_number > 0)
+            {
+                auto vehicle_config = VehicleConfig(road.getXCoordinate(), road.getYCoordinate(), 2, VehicleType::PEDESTRIAN, sf::Color::Red, 10.f);
+                v_configs.push_back(vehicle_config);
+                --pedestrian_number;
+            }
+        }
 
+    }
+    
+}
+
+// void setConfigsForCameras(std::vector<CameraConfig>& configs, int number, int initial_x, int initial_y, int margin=100, int rotation=0, float size=30.f)
+// {
+//     for (int i=1; i<=number; ++i)
+//     {
+//         // std::cout << i * margin_x + initial_x << " | " << i * margin_y + initial_y<< std::endl;
+//         auto cc = CameraConfig(i * margin + initial_x, initial_y, rotation, sf::Color(0,255,0,200), size);
+//         configs.push_back(cc);
+//     }
+// }
+
+// TODO - wczytanie configu, windows
+
+std::vector<std::string> getNextLineAndSplitIntoTokens(std::istream& str)
+{
+    std::vector<std::string>   result;
+    std::string                line;
+    std::getline(str,line);
+
+    std::stringstream          lineStream(line);
+    std::string                cell;
+
+    while(std::getline(lineStream,cell, ','))
+    {
+        result.push_back(cell);
+    }
+    // This checks for a trailing comma with no data after it.
+    if (!lineStream && cell.empty())
+    {
+        // If there was a trailing comma then add an empty element.
+        result.push_back("");
+    }
+    return result;
+}
 
 int main(int argc, char *argv[])
 {
 
     std::string file = "../zpr.db";
 
-    // auto rc1 = RoadConfig(0, 125, 800.f, 20.f, Move(MoveType::RIGHT, MoveType::NONE));
-    // auto rc2 = RoadConfig(135, 0, 800.f, 20.f, Move(MoveType::NONE, MoveType::DOWN), 90);
-    // auto rc3 = RoadConfig(235, 0, 800.f, 20.f, Move(MoveType::NONE, MoveType::UP), 90);
-    // auto rc3 = RoadConfig(335, 0, 800.f, 20.f, Move(MoveType::NONE, MoveType::UP), 90);
-    // auto rc3 = RoadConfig(435, 0, 800.f, 20.f, Move(MoveType::NONE, MoveType::UP), 90);
-    // auto rc3 = RoadConfig535, 0, 800.f, 20.f, Move(MoveType::NONE, MoveType::UP), 90);
 
-    //set
+    // auto vc1 = VehicleConfig(5, 100, 3, VehicleType::CAR, sf::Color::Red, 10.f);
+    // auto vc2 = VehicleConfig(5, 100, 10, VehicleType::TRUCK, sf::Color::Blue, 10.f);
 
-    // auto vc1 = VehicleConfig(5, 35, 1, VehicleType::CAR, sf::Color::Red, 10.f);
-    auto vc1 = VehicleConfig(5, 100, 3, VehicleType::CAR, sf::Color::Red, 10.f);
-    auto vc2 = VehicleConfig(5, 100, 10, VehicleType::TRUCK, sf::Color::Blue, 10.f);
+    // auto vc3 = VehicleConfig(5, 300, 6, VehicleType::CAR, sf::Color::Red, 10.f);
+    // auto vc4 = VehicleConfig(5, 500, 10, VehicleType::TRUCK, sf::Color::Blue, 10.f);
 
-    auto vc3 = VehicleConfig(5, 300, 6, VehicleType::CAR, sf::Color::Red, 10.f);
-    auto vc4 = VehicleConfig(5, 500, 10, VehicleType::TRUCK, sf::Color::Blue, 10.f);
+    // auto cc1 = CameraConfig(630, 430, 90, sf::Color(0,255,0,200), 30);
+    // auto cc2 = CameraConfig(330, 230, 90, sf::Color(0,255,0,200), 30);
+    // auto cc3 = CameraConfig(330, 440, 270, sf::Color(0,255,0,200), 60);
+    // auto cc4 = CameraConfig(630, 90, 0, sf::Color(0,255,0,200), 15);
+    // auto cc5 = CameraConfig(270, 65, 45, sf::Color(0,255,0,200), 45);
+    // auto cc6 = CameraConfig(150, 235, 45, sf::Color(0,255,0,200), 45);
+    // auto cc7 = CameraConfig(310, 450, 45, sf::Color(0,255,0,200), 30);
+    // auto cc8 = CameraConfig(530, 530, 90, sf::Color(0,255,0,200), 30);
+    // auto cc9 = CameraConfig(530, 230, 120, sf::Color(0,255,0,200), 30);
+    // // auto cc2 = CameraConfig()
 
-    auto cc1 = CameraConfig(260, 30, 90, sf::Color(0,255,0,200), 30);
 
-    std::vector<RoadConfig> rcv;
-    setConfigsForRoads(rcv, 8, RoadDirection::HORIZONTAL, 0, 0);
-    setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 200, 0, 90, 360.0f, 20.0f, 100);
-    setConfigsForRoads(rcv, 1, RoadDirection::VERTICAL, 400, 0, 90, 800.0f, 20.0f, 100);
-    setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 500, 0, 90, 360.0f, 20.0f, 100);
-    setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 200, 460, 90, 320.0f, 20.0f, 100);
-    setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 500, 460, 90, 320.0f, 20.0f, 100);
-    setConfigsForRoads(rcv, 1, RoadDirection::VERTICAL, 50, 280, 90, 320.0f, 20.0f, 100);
+    // std::vector<RoadConfig> rcv;
+    // setConfigsForRoads(rcv, 8, RoadDirection::HORIZONTAL, 0, 0);
+    // setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 200, 0, 90, 360.0f, 20.0f, 100);
+    // setConfigsForRoads(rcv, 1, RoadDirection::VERTICAL, 400, 0, 90, 800.0f, 20.0f, 100);
+    // setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 500, 0, 90, 360.0f, 20.0f, 100);
+    // setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 200, 460, 90, 320.0f, 20.0f, 100);
+    // setConfigsForRoads(rcv, 2, RoadDirection::VERTICAL, 500, 460, 90, 320.0f, 20.0f, 100);
+    // setConfigsForRoads(rcv, 1, RoadDirection::VERTICAL, 50, 280, 90, 320.0f, 20.0f, 100);
 
-    std::vector<VehicleConfig> vcv;
-    std::vector<CameraConfig> ccv;
+    // std::vector<VehicleConfig> vcv;
+    // setConfigsForVehicles(vcv, rcv, 2, 2, 5);
+    // std::vector<CameraConfig> ccv;
 
-    // rcv.push_back(rc1);
-    // rcv.push_back(rc2);
-    // rcv.push_back(rc3);
-    vcv.push_back(vc1);
-    vcv.push_back(vc2);
-    vcv.push_back(vc3);
-    vcv.push_back(vc4);
-    ccv.push_back(cc1);
+    // ccv.push_back(cc1);
+    // ccv.push_back(cc2);
+    // ccv.push_back(cc3);
+    // ccv.push_back(cc4);
+    // ccv.push_back(cc5);
+    // ccv.push_back(cc6);
+    // ccv.push_back(cc7);
+    // ccv.push_back(cc8);
+    // ccv.push_back(cc9);
 
-    int refresh_rate = 1000;
-
-    auto config = Config(file,refresh_rate,rcv,vcv,ccv);
-    auto sim = Simulation(config);
-    sim.run();
+    int refresh_rate = 500;
+    std::string p = "../roads.cfg";
+    auto config = Config(file,refresh_rate);
+    auto r = RoadConfig();
+    config.readConfig(p, r);
+    config.getRoadsConfig();
+    // auto sim = Simulation(config);
+    // sim.run();
     return 0;
 }

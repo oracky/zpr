@@ -31,7 +31,6 @@ private:
     std::queue<VehicleGraphical> inactive_vehicles_;
     std::mutex measurement_mutex_;
     std::mutex vehicles_mutex_;
-    std::mutex inactive_vehicles_mutex_;
     std::unique_ptr<SQLConnector> db_;
 
 
@@ -39,12 +38,10 @@ private:
     void setVehiclesForSimulation();
     void setCamerasForSimulation();
     void updateMap();
-    void spawn();
     void makeMeasurements();
     void saveMeasurements();
     void measureLoop();
     void savingLoop();
-    void spawnLoop();
     void drawObjects(sf::RenderWindow* window);
 };
 
