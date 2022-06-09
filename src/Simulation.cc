@@ -4,10 +4,7 @@
 #include "Camera.h"
 #include "SQLConnector.h"
 #include "SimulationTable.h"
-// #include "ParallelJob.h"
 #include <thread>
-#include <unistd.h>
-#include <iostream>
 #include <chrono>
 
 Simulation::Simulation(const Config& config) : config_(config)
@@ -20,7 +17,7 @@ Simulation::Simulation(const Config& config) : config_(config)
 
 void Simulation::run() 
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME);
 
     setRoadSystemForSimulation();
     setVehiclesForSimulation();

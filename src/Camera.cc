@@ -4,7 +4,6 @@
 #include "VehicleGraphical.h"
 #include "CameraTable.h"
 #include "SimulationTable.h"
-#include <iostream>
 
 Camera::Camera(int x, int y, int rotation, const sf::Color& color, float size, const SimulationTable& sim_info)
     : x_(x), y_(y), rotation_(rotation), color_(color), size_(size), simulation_info_(sim_info)

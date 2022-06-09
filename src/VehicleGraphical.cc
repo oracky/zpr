@@ -1,8 +1,6 @@
 #include <random>
 #include <vector>
-#include <iostream>
 #include <thread>
-#include <unistd.h>
 #include "Vehicle.h"
 #include "VehicleGraphical.h"
 #include "Move.h"
@@ -23,35 +21,7 @@ VehicleGraphical VehicleGraphical::spawnClone() const
     return VehicleGraphical(initial_x_, initial_y_, speed_, type_, color_, size_);
 }
 
-// void VehicleGraphical::update(const std::vector<Road>& roads)
-// {
-//     bool can_move = false;
-//     auto bounding_box_shape = shape_.getGlobalBounds();
 
-//     if (isOnTheRoad(bounding_box_shape, current_road_.getShape().getGlobalBounds()))
-//     {
-//         move(current_road_);
-//         return;
-//     }
-
-//     for (auto road : roads)
-//     {
-//         auto bounding_box_road = road.getShape().getGlobalBounds();
-
-//         if (road != current_road_ && isOnTheRoad(bounding_box_shape, bounding_box_road))
-//         {
-//             move(road);
-//             can_move = true;
-//             break;
-//         }
-//     }
-
-//     if (!can_move)
-//     {
-//         current_road_.setPreferedMove(current_road_.getOppositePreferedMove());
-//         move(current_road_);
-//     }
-// }
 void VehicleGraphical::update(const std::vector<Road>& roads)
 {
     auto available_roads = findRoadIntersections(roads);

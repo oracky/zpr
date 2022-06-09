@@ -16,7 +16,7 @@ private:
     sqlite3* db_; 
     char* error_message_;
 
-    static int callback(void *NotUsed, int argc, char **argv, char **azColName);
+    static int callback(void *notUsed, int argc, char **argv, char **az_col_name);
 };
 
 #endif

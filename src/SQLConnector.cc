@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include <iostream>
 #endif
@@ -59,12 +59,12 @@ void SQLConnector::insertData(SQLTable& table)
     
 }
 
-int SQLConnector::callback(void *NotUsed, int argc, char **argv, char **azColName) 
+int SQLConnector::callback(void *notUsed, int argc, char **argv, char **az_col_name) 
 {
     #ifdef DEBUG
             for(int i = 0; i<argc; i++) 
             {
-                std::cout << azColName[i] << " = " << argv[i] ? argv[i] : "NULL";
+                std::cout << az_col_name[i] << " = " << argv[i] ? argv[i] : "NULL";
             }
     #endif
     return 0;

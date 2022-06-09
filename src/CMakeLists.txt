@@ -1,6 +1,6 @@
 set(SQLTABLES_LIB_FILES SQLTable.cc SQLTable.h MeasurementTable.cc MeasurementTable.h CameraTable.cc CameraTable.h SimulationTable.cc SimulationTable.h SQLConnector.cc SQLConnector.h VehicleType.hpp)
 set(SIMULATION_LIB_FILES Simulation.cc Simulation.h Vehicle.cc Vehicle.h VehicleGraphical.cc VehicleGraphical.h
-    Config.cc Config.h Move.cc Move.h Road.cc Road.h Camera.cc Camera.h ParallelJob.cc ParallelJob.h ${SQLTABLES_LIB_FILES})
+    Config.cc Config.h Move.cc Move.h Road.cc Road.h Camera.cc Camera.h ${SQLTABLES_LIB_FILES})
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)

@@ -33,19 +33,6 @@ Config::Config(int argc, char **argv, bool all_default) : database_file_(DB_PATH
 
 }
 
-// Config::Config(const std::string& database_file, int refresh,
-//      const std::string& roads_config_file,
-//      const std::string& vehicles_config_file,
-//      const std::string& cameras_config_file) : database_file_(database_file), measure_refresh_rate_ms_(refresh)
-// {
-//     configs_ = ConfigsContainer();
-//     auto r_config = RoadConfig();
-//     auto v_config = VehicleConfig();
-//     auto c_config = CameraConfig();
-//     readConfig(roads_config_file, r_config);
-//     readConfig(vehicles_config_file, v_config);
-//     readConfig(cameras_config_file, c_config);
-// }
 
 Config::Config(const std::string& database_file, int refresh,
  const std::vector<RoadConfig>& roads_config,  const std::vector<VehicleConfig>& vehicles_config,
@@ -266,8 +253,6 @@ void RoadConfig::setWidth(float width) { width_ = width; }
 void RoadConfig::setPreferedMove(const Move& prefered_move) { prefered_move_ = prefered_move; }
 void RoadConfig::createConfigFromContainer(const std::vector<std::string>& vec, ConfigsContainer& configs)
 {
-    std::cout << "Road config" << std::endl;
-    // configs.roads_config_.clear();
     char* pEnd;
 
     int x = std::strtol(vec[0].c_str(), &pEnd, 10);

@@ -20,6 +20,9 @@ public:
     Simulation(const Config& config);
     void run();
 private:
+    static constexpr int WINDOW_WIDTH = 800;
+    static constexpr int WINDOW_HEIGHT = 600;
+    static constexpr auto WINDOW_NAME = "ZPR - Symulator ruchu miejskiego (Michal Oracki)";
     bool can_monitor_;
     Config config_;
     SimulationTable simulation_info_;
